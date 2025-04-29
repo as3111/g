@@ -1,0 +1,78 @@
+import random
+
+true_price = random.randint(3000, 8000)  # True flight fare (hidden from players)
+
+def player_bid(strategy="truthful"):
+    if strategy == "truthful":
+        return true_price  # Assume access to real price
+    elif strategy == "overbid":
+        return true_price + random.randint(500, 1500)
+    elif strategy == "underbid":
+        return true_price - random.randint(500, 1000)
+
+bids = {
+    "Player A (truthful)": player_bid("truthful"),
+    "Player B (overbid)": player_bid("overbid"),
+    "Player C (underbid)": player_bid("underbid")
+}
+
+# Closest bid wins
+winner = min(bids, key=lambda x: abs(bids[x] - true_price))
+
+print("True Flight Fare:", true_price)
+print("Player Bids:")
+for player, bid in bids.items():
+    print(f"{player}: ₹{bid}")
+
+print("\nCalculating")
+for player, bid in bids.items():
+    print(f"Closest Estimation of {player}", abs(bid-true_price))
+
+print("\nWinner (closest bid):", winner)
+
+print("--------------------------------------------------------------")
+# Each player estimates a fair salary for a job role
+# Incentive to match actual HR decision
+
+actual_salary = 70000  # Assumed HR decision
+player_estimates = {
+    "Player A": 65000,
+    "Player B": 72000,
+    "Player C": 75000
+}
+
+print("Actual Salary Set by HR:", actual_salary)
+print("\nPlayer Estimates:")
+
+for p, est in player_estimates.items():
+    print(f"{p}: ₹{est}")
+
+print("\nCalculating")
+for p, est in player_estimates.items():
+    print(f"Closest Estimation of {p}:",abs(est - actual_salary))
+
+closest = min(player_estimates, key=lambda x: abs(player_estimates[x] - actual_salary))
+print("\nClosest Estimator Wins:", closest)
+
+print("--------------------------------------------------------------")
+# Market trying to assess value of a rare collectible item
+
+true_value = 120000
+players = {
+    "Honest Buyer": true_value,
+    "Speculator": true_value + 30000,
+    "Undervaluing Trader": true_value - 25000
+}
+
+# Reward for being closest to actual (truth-telling incentive)
+print("True Market Value of Product: ₹", true_value)
+print("\nPlayer Valuations:")
+for player, val in players.items():
+    print(f"{player}: ₹{val}")
+
+print("\nCalculation")
+for player, val in players.items():
+    print(f"Closest Estimate of {player}:", abs(val - true_value))
+
+winner = min(players, key=lambda x: abs(players[x] - true_value))
+print("\nClosest Value Submitted By:", winner)

@@ -1,0 +1,25 @@
+import numpy as np
+payoff=np.array([[1,2],[3,4]])
+
+row_min=np.min(payoff)
+col_max=np.max(payoff)
+
+maximin=np.max(row_min)
+minimax=np.min(col_max)
+
+print('payoff',payoff)
+print('minimax',minimax)
+print('maximin',maximin)
+
+if minimax==maximin:
+  for i in range(2):
+    for j in range(2):
+      if payoff[i][j]==maximin:
+        print(f"sadle point on({i}{j}):{payoff[i][j]}")
+else:
+        print("no sadle point")
+
+
+
+
+

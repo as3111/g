@@ -1,0 +1,59 @@
+def print_board(board):
+    for row in board:
+        print(" | ".join(row))
+        print("-" * (len(board) * 4 - 3))
+
+def check_winner(board, player):
+    size = len(board)
+    
+    # Check rows and columns
+    for i in range(size):
+        if all([cell == player for cell in board[i]]) or all([board[j][i] == player for j in range(size)]):
+            return True
+    
+    # Check diagonals
+    if all([board[i][i] == player for i in range(size)]) or all([board[i][size - i - 1] == player for i in range(size)]):
+        return True
+    
+    return False
+
+def is_full(board):
+    return all(cell != " " for row in board for cell in row)
+
+def play_game(size=3):
+    board = [[" " for _ in range(size)] for _ in range(size)]
+    players = ["X", "O"]
+    turn = 0
+
+    while True:
+        print_board(board)
+        player = players[turn % 2]
+        print(f"Player {player}'s turn")
+
+        try:
+            row = int(input(f"Enter row (0 to {size-1}): "))
+            col = int(input(f"Enter col (0 to {size-1}): "))
+        except ValueError:
+            print("Invalid input. Please enter numeric indices.")
+            continue
+
+        if 0 <= row < size and 0 <= col < size and board[row][col] == " ":
+            board[row][col] = player
+            if check_winner(board, player):
+                print_board(board)
+                print(f"Player {player} wins!")
+                break
+            elif is_full(board):
+                print_board(board)
+                print("It's a draw!")
+                break
+            turn += 1
+        else:
+            print("Invalid move. Try again.")
+
+# Run the game
+print("3x3 Tic-Tac-Toe")
+play_game(3)
+
+# To play 4x4, uncomment the line below:
+# play_game(4)

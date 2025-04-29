@@ -1,0 +1,35 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Payoff matrix: [P1_score, P2_score]
+payoff = {"C": {"C": [3, 3], "D": [0, 5]},
+          "D": {"C": [5, 0], "D": [1, 1]}}
+
+p1_score = p2_score = 0
+p1_moves, p2_moves = [], []
+last_p2 = "C"  # Player 1 starts by cooperating
+
+for _ in range(50):
+    p1 = "C" if last_p2 == "C" else "D"  # Tit-for-Tat strategy
+    p2 = np.random.choice(["C", "D"])   # Random strategy
+
+    p1_score += payoff[p1][p2][0]
+    p2_score += payoff[p1][p2][1]
+
+    p1_moves.append(1 if p1 == "C" else 0)
+    p2_moves.append(1 if p2 == "C" else 0)
+
+    last_p2 = p2
+
+print("Player 1 (TFT) Score:", p1_score)
+print("Player 2 (Random) Score:", p2_score)
+
+# Plot the moves
+plt.plot(p1_moves, label="Player 1 (TFT)")
+plt.plot(p2_moves, label="Player 2 (Random)")
+plt.ylabel("1 = Cooperate, 0 = Defect")
+plt.xlabel("Rounds")
+plt.title("Tit-for-Tat vs Random Strategy")
+plt.legend()
+plt.grid(True)
+plt.show()
